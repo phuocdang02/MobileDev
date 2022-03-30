@@ -19,15 +19,12 @@ const styles = StyleSheet.create({
   },
 }); */
 
-
 import React, { Component } from 'react';
-import Hello from './components/HelloComponents';
+import Main from './components/MainComponent';
 
 class App extends Component {
   render() {
-    return (
-      <Hello name='TDK' />
-    );
+    return (<Main />);
   }
 }
 export default App;
