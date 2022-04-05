@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 }); */
 
 import React, { Component } from 'react';
+import { View } from 'react-native-web';
 import Main from './components/MainComponent';
 
 class App extends Component {
