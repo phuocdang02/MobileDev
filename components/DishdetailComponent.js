@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Card, Image } from 'react-native-elements';
-import {DISHES} from '../shared/dishes';
 
 class RenderDish extends Component {
   render() {
@@ -21,15 +20,8 @@ class RenderDish extends Component {
 }
 
 class Dishdetail extends Component {
-  constructor(props){
-    super(props);
-    this.state={
-      dishes: DISHES
-    };
-  }
-  render(){
-    const dishId = parseInt(this.props.route.params.dishId);
-    return (<RenderDish dish={this.state.dishes[dishId]}/>);
+  render() {
+    return (<RenderDish dish={this.props.dish} />);
   }
 }
 export default Dishdetail;
