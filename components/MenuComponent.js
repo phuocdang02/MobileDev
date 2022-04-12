@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
-import { View } from 'react-native';
-import Dishdetail from './DishdetailComponent';
+import { DISHES } from '../shared/dishes';
 
 class Menu extends Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedDish: null
+      dishes: DISHES
     };
   }
   render() {
     return (
       <View style={{flex:1}}>
-      <FlatList data={this.props.dishes}
+      <FlatList data={this.state.dishes}
       renderItem={({ item, index }) => this.renderMenuItem(item, index)}
       keyExtractor={item => item.id.toString()} />
 
@@ -23,8 +22,9 @@ class Menu extends Component {
       );
   }
   renderMenuItem(item, index) {
+    const { navigate } = this.props.navigation;
     return (
-      <ListItem key={index} onPress={() => this.onDishSelect(item)}>
+      <ListItem key={index} onPress={() => navigate('Dishdetail',{dishId: item.id})}>
         <Avatar source={require('./images/vadonut.png')} />
         <ListItem.Content>
           <ListItem.Title>{item.name}</ListItem.Title>
@@ -33,9 +33,5 @@ class Menu extends Component {
       </ListItem>
     );
   };
-  onDishSelect(item){
-    /* alert(item.id); */
-    this.setState({selectedDish:item});
-  }
 }
 export default Menu;
