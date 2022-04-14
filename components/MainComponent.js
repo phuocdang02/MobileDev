@@ -4,11 +4,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Menu from './MenuComponent';
-import Dishdetail from './DishdetailComponent';
 import Home from './HomeComponent';
+import Dishdetail from './DishdetailComponent';
 
 function HomeNavigatorScreen(){
-  const HomeNavigator = createDrawerNavigator();
+  const HomeNavigator = createStackNavigator();
   return(
     <HomeNavigator.Navigator
     initialRouteName='Home'
@@ -38,7 +38,7 @@ function MenuNavigatorScreen() {
   );
 }
 
-function MenuNavigatorScreen(){
+function MainNavigatorScreen(){
   const MainNavigator = createDrawerNavigator();
   return(
     <MainNavigator.Navigator initialRouteName='HomeScreen'>
