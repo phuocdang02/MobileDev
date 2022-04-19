@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import { Card, Image } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 
-
 class RenderDish extends Component {
   render() {
     const dish = this.props.dish;
