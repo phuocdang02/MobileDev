@@ -3,7 +3,7 @@ import { View, Text , FlatList} from 'react-native';
 import { Card, Image } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { ScrollView } from 'react-native-virtualized-view';
-import { COMMENTS } from '../shared/comments';
+import { COMMENTS } from '../shared/comments';``
 
 class RenderComments extends Component {
   render() {
