@@ -12,6 +12,8 @@ import Contact from './ContactComponent';
 import Dishdetail from './DishdetailComponent';
 import About from './AboutComponent';
 
+import { baseUrl } from '../shared/baseUrl';
+
 function HomeNavigatorScreen(){
   const HomeNavigator = createStackNavigator();
   return(
@@ -96,7 +98,7 @@ function CustomDrawerContent(props) {
     <DrawerContentScrollView {...props}>
       <View style={{ backgroundColor: '#7cc', height: 80, alignItems: 'center', flexDirection: 'row' }}>
         <View style={{ flex: 1 }}>
-          <Image source={require('./images/logo.png')} style={{ margin: 10, width: 80, height: 60 }} />
+          <Image source={{ uri: baseUrl + 'images/logo.png' }} style={{ margin: 10, width: 80, height: 60 }} />
         </View>
         <View style={{ flex: 2 }}>
           <Text style={{ color: '#fff', fontSize: 22, fontWeight: 'bold' }}>TDK & Friends</Text>
@@ -140,11 +142,12 @@ function MainNavigatorScreen(){
 
 // redux
 import { connect } from 'react-redux';
-import { fetchLeaders, fetchDishes, fetchComments } from '../redux/ActionCreators';
+import { fetchLeaders, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
 const mapDispatchToProps = dispatch => ({
   fetchLeaders: () => dispatch(fetchLeaders()),
   fetchDishes: () => dispatch(fetchDishes()),
-  fetchComments: () => dispatch(fetchComments())
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos())
 });
 
 class Main extends Component {
@@ -160,6 +163,7 @@ class Main extends Component {
     this.props.fetchLeaders();
     this.props.fetchDishes();
     this.props.fetchComments();
+    this.props.fetchPromos();
   }
 }
 export default connect(null, mapDispatchToProps)(Main);
