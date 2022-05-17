@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text , FlatList} from 'react-native';
-import { Card, Image } from 'react-native-elements';
+import { Card, Image, Icon } from 'react-native-elements';
 import { ScrollView } from 'react-native-virtualized-view';
+
 /* import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments'; */
 import { baseUrl } from '../shared/baseUrl';
@@ -40,6 +41,9 @@ class RenderDish extends Component {
             <Card.FeaturedTitle>{dish.name}</Card.FeaturedTitle>
           </Image>
           <Text style={{ margin: 10 }}>{dish.description}</Text>
+          <Icon raised reverse type='font-awesome' color='#f50'
+            name={this.props.favorite ? 'heart' : 'heart-o'}
+            onPress={() => this.props.favorite ? alert('Already favorite') : this.props.onPressFavorite()} />
         </Card>
       );
     }
@@ -77,8 +81,9 @@ class Dishdetail extends Component {
       </ScrollView>
     );
   }
-  markFavorite(dishId){
-    this.setState({favorites:this.state.favorites.concat(dishId)});
+
+  markFavorite(dishId) {
+    this.setState({ favorites: this.state.favorites.concat(dishId)});
   }
 }
 export default connect(mapStateToProps)(Dishdetail);
