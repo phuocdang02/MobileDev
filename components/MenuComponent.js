@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ListItem, Avatar } from 'react-native-elements';
-import {FlatList} from 'react-native';
+import {FlatList, Text} from 'react-native';
+import Loading from './LoadingComponent';
 /* import { DISHES } from '../shared/dishes';*/
 import { baseUrl } from '../shared/baseUrl';
 
@@ -20,13 +21,23 @@ class Menu extends Component {
       dishes: DISHES
     }; */
   }
-  render() {
-    return (
-      <FlatList data={this.props.dishes.dishes}
-        renderItem={({ item, index }) => this.renderMenuItem(item, index)}
-        keyExtractor={item => item.id.toString()} />
-    );
-  }
+    render() {
+        if (this.props.dishes.isLoading) {
+          return (<Loading />);
+        } 
+        else if (this.props.dishes.errMess) {
+          return (
+          <Text>{this.props.errMess}</Text>
+          );
+        } 
+        else {
+          return(
+            <FlatList data={this.props.dishes.dishes}
+            renderItem={({ item, index }) => this.renderMenuItem(item, index)}
+            keyExtractor={item => item.id.toString()}/>
+          );
+        }
+      }
   renderMenuItem(item, index) {
     const { navigate }=this.props.navigation;
     return (

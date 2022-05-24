@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Card, Avatar, ListItem} from 'react-native-elements';
 import { ScrollView } from 'react-native-virtualized-view';
+import Loading from './LoadingComponent';
 
 /*import { LEADERS } from '../shared/leaders';*/
 import { baseUrl } from '../shared/baseUrl';
@@ -24,7 +25,26 @@ class History extends Component {
   class RenderLeadership extends Component {
   
     render() {
-      return (
+      if (this.props.isLoading) {
+        return (
+          <Card>
+            <Card.Title>Corporate Leadership</Card.Title>
+            <Card.Divider />
+            <Loading />
+          </Card>
+        );
+      } 
+      else if (this.props.errMess) {
+        return (
+          <Card>
+            <Card.Title>Corporate Leadership</Card.Title>
+            <Card.Divider />
+            <Text>{this.props.errMess}</Text>
+          </Card>
+        );
+      } 
+      else {
+        return (
         <Card>
           <Card.Title>Corporate Leadership</Card.Title>
           <Card.Divider/>
@@ -33,8 +53,8 @@ class History extends Component {
           keyExtractor={item => item.id.toString()} />
         </Card>
       );
+      }
     };  
-   
         renderLeaderItem( item, index ) {
           return (
           <ListItem key={index}> 
@@ -68,11 +88,13 @@ class About extends Component {
         return (
           <ScrollView>
             <History/>
-            <RenderLeadership leaders={this.props.leaders.leaders} />
+            <RenderLeadership 
+            leaders={this.props.leaders.leaders}
+            isLoading={this.props.leaders.isLoading}
+            errMess={this.props.leaders.errMess} />
           </ScrollView>
         );
       }
 } 
-    
 export default connect(mapStateToProps)(About);
 
