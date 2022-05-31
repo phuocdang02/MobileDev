@@ -12,7 +12,6 @@ export const fetchLeaders = () => (dispatch) => {
     .then(leaders => dispatch(addLeaders(leaders)))
     .catch(error => dispatch(leadersFailed(error.message)));
 };
-
 const leadersLoading = () => ({
   type: ActionTypes.LEADERS_LOADING
 });
@@ -25,7 +24,7 @@ const addLeaders = (leaders) => ({
   payload: leaders
 });
 
-// Dishes
+// dishes
 export const fetchDishes = () => (dispatch) => {
   dispatch(dishesLoading());
   return fetch(baseUrl + 'dishes')
@@ -48,7 +47,7 @@ const addDishes = (dishes) => ({
   payload: dishes
 });
 
-// Comments
+// comments
 export const fetchComments = () => (dispatch) => {
   return fetch(baseUrl + 'comments')
     .then(response => {
@@ -67,7 +66,18 @@ const addComments = (comments) => ({
   payload: comments
 });
 
-// Promotions
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+  var newcmt = { dishId: dishId, rating: rating, author: author, comment: comment, date: new Date().toISOString() };
+  setTimeout(() => {
+    dispatch(addComment(newcmt));
+  }, 2000);
+};
+const addComment = (newcmt) => ({
+  type: ActionTypes.ADD_COMMENT,
+  payload: newcmt
+});
+
+// promotions
 export const fetchPromos = () => (dispatch) => {
   dispatch(promosLoading());
   return fetch(baseUrl + 'promotions')
@@ -89,11 +99,12 @@ const addPromos = (promos) => ({
   type: ActionTypes.ADD_PROMOS,
   payload: promos
 });
+
 // favorites
 export const postFavorite = (dishId) => (dispatch) => {
   setTimeout(() => {
     dispatch(addFavorite(dishId));
-  }, 1000);
+  }, 2000);
 };
 const addFavorite = (dishId) => ({
   type: ActionTypes.ADD_FAVORITE,
