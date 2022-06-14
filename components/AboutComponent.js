@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Card, Avatar, ListItem} from 'react-native-elements';
 import { ScrollView } from 'react-native-virtualized-view';
-import Loading from './LoadingComponent';
 
 /*import { LEADERS } from '../shared/leaders';*/
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 class History extends Component {
   render() {
@@ -32,19 +33,17 @@ class History extends Component {
             <Card.Divider />
             <Loading />
           </Card>
-        );
-      } 
-      else if (this.props.errMess) {
-        return (
-          <Card>
-            <Card.Title>Corporate Leadership</Card.Title>
-            <Card.Divider />
-            <Text>{this.props.errMess}</Text>
-          </Card>
-        );
-      } 
-      else {
-        return (
+           );
+          } else if (this.props.errMess) {
+            return (
+              <Card>
+                <Card.Title>Corporate Leadership</Card.Title>
+                <Card.Divider />
+                <Text>{this.props.errMess}</Text>
+              </Card>
+            );
+          } else {
+      return (
         <Card>
           <Card.Title>Corporate Leadership</Card.Title>
           <Card.Divider/>
@@ -53,8 +52,9 @@ class History extends Component {
           keyExtractor={item => item.id.toString()} />
         </Card>
       );
-      }
-    };  
+    }
+  }
+   
         renderLeaderItem( item, index ) {
           return (
           <ListItem key={index}> 
@@ -77,24 +77,29 @@ const mapStateToProps = state => {
 };
   
 class About extends Component {
-    constructor(props) {
+    /*constructor(props) {
         super(props);
-       /* this.state = {
+        this.state = {
           leaders : LEADERS,
         };*/
-    }
+    
   render() {
     
         return (
           <ScrollView>
+           <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
             <History/>
+            </Animatable.View>
+            <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
             <RenderLeadership 
             leaders={this.props.leaders.leaders}
             isLoading={this.props.leaders.isLoading}
             errMess={this.props.leaders.errMess} />
+            </Animatable.View>
           </ScrollView>
         );
       }
 } 
+    
 export default connect(mapStateToProps)(About);
 

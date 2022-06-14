@@ -14,16 +14,38 @@ const mapDispatchToProps = dispatch => ({
 });
 
 import React, { Component } from 'react';
-import { View, ScrollView, Text, FlatList, YellowBox, Modal, Button } from 'react-native';
+import { View, ScrollView, Text, FlatList, YellowBox, Modal, Button, PanResponder, Alert } from 'react-native';
 import { Card, Image, Icon, Rating, Input } from 'react-native-elements';
 import { baseUrl } from '../shared/baseUrl';
 
 class RenderDish extends Component {
   render() {
+    // gesture
+    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+      if (dx < -200) return true; // right to left
+      return false;
+    };
+    const panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (e, gestureState) => {return true;},
+      onPanResponderEnd: (e, gestureState) => {
+        if (recognizeDrag(gestureState)) {
+          Alert.alert(
+            'Add Favorite',
+            'Are you sure you wish to add ' + dish.name + ' to favorite?',
+            [
+              { text: 'Cancel', onPress: () => { /* nothing */ } },
+              { text: 'OK', onPress: () => { this.props.favorite ? alert('Already favorite') : this.props.onPressFavorite() } },
+            ]
+          );
+        }
+        return true;
+      }
+    });
+    // render
     const dish = this.props.dish;
     if (dish != null) {
       return (
-        <Card>
+        <Card {...panResponder.panHandlers}>
           <Image source={{ uri: baseUrl + dish.image }} style={{ width: '100%', height: 100, flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Card.FeaturedTitle>{dish.name}</Card.FeaturedTitle>
           </Image>
@@ -65,6 +87,8 @@ class RenderComments extends Component {
   }
 }
 
+import * as Animatable from 'react-native-animatable';
+
 class Dishdetail extends Component {
   constructor(props) {
     super(props);
@@ -81,11 +105,15 @@ class Dishdetail extends Component {
     const dishId = parseInt(this.props.route.params.dishId);
     return (
       <ScrollView>
+         <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
         <RenderDish dish={this.props.dishes.dishes[dishId]}
           favorite={this.props.favorites.some(el => el === dishId)}
           onPressFavorite={() => this.markFavorite(dishId)}
           onPressComment={() => this.setState({ showModal: true })} />
+        </Animatable.View>
+        <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
         <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+        </Animatable.View>
         <Modal visible={this.state.showModal}
           onRequestClose={() => this.setState({ showModal: false })}>
           <View style={{ justifyContent: 'center', margin: 20 }}>

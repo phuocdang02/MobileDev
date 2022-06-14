@@ -13,6 +13,8 @@ const mapStateToProps = state => {
   }
 };
 
+import * as Animatable from 'react-native-animatable';
+
 class Menu extends Component {
   constructor(props){
     super(props);
@@ -41,6 +43,7 @@ class Menu extends Component {
   renderMenuItem(item, index) {
     const { navigate }=this.props.navigation;
     return (
+      <Animatable.View animation="fadeInRightBig" duration={2000}>
       <ListItem key={index} onPress={()=> navigate('Dishdetail',{dishId:item.id})}>
         <Avatar source={{uri: baseUrl + item.image}} />
         <ListItem.Content>
@@ -48,6 +51,7 @@ class Menu extends Component {
           <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
+      </Animatable.View>
     );
   };
 }
