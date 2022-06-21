@@ -31,12 +31,12 @@ class Favorites extends Component {
        /* <FlatList data={dishes}
           renderItem={({ item, index }) => this.renderMenuItem(item, index)}
           keyExtractor={item => item.id.toString()} />*/
-          <Animatable.View animation="fadeInRightBig" duration={2000}>
-        <SwipeListView data={dishes}
-        renderItem={({ item, index }) => this.renderMenuItem(item, index)}
-        renderHiddenItem={({ item, index }) => this.renderHiddenItem(item, index)}
-        keyExtractor={item => item.id.toString()}
-        rightOpenValue={-100} />
+        <Animatable.View animation="fadeInRightBig" duration={2000}>
+          <SwipeListView data={dishes}
+          renderItem={({ item, index }) => this.renderMenuItem(item, index)}
+          renderHiddenItem={({ item, index }) => this.renderHiddenItem(item, index)}
+          keyExtractor={item => item.id.toString()}
+          rightOpenValue={-100} />
         </Animatable.View>
       );
     }
@@ -73,5 +73,4 @@ class Favorites extends Component {
     );
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

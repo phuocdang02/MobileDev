@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Text, Switch, Button, Modal } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { StyleSheet, View, ScrollView, Text, Switch, Button, Modal, PanResponder, Alert } from 'react-native';
+import { Icon, ListItem } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns';
+import * as Animatable from 'react-native-animatable';
+import * as Notifications from 'expo-notifications';
 
-class ModalContent extends Component {
+/* class ModalContent extends Component {
   render() {
     return (
       <View style={styles.modal}>
@@ -17,7 +19,7 @@ class ModalContent extends Component {
       </View>
     );
   }
-}
+} */
 
 class Reservation extends Component {
   constructor(props) {
@@ -27,12 +29,12 @@ class Reservation extends Component {
       smoking: false,
       date: new Date(),
       showDatePicker: false,
-      showModal: false
     }
   }
   render() {
     return (
       <ScrollView>
+        <Animatable.View animation="zoomIn" duration={2000} delay={1000}>
         <View style={styles.formRow}>
           <Text style={styles.formLabel}>Number of Guests</Text>
           <Picker style={styles.formItem} selectedValue={this.state.guests} onValueChange={(value) => this.setState({ guests: value })}>
@@ -56,20 +58,56 @@ class Reservation extends Component {
             onConfirm={(date) => this.setState({ date: date, showDatePicker: false })}
             onCancel={() => this.setState({ showDatePicker: false })} />
         </View>
+
+        {/* Button Press Show Modal */}
         <View style={styles.formRow}>
-          <Button title='Reserve' color='#7cc' onPress={() => this.handleReservation()} />
+          <Button title='Reserve' color='#7cc' onPress={() => this.handleReservation()}/>
         </View>
-        <Modal animationType={'slide'} visible={this.state.showModal}
+
+        {/* <Modal animationType={'slide'} visible={this.state.showModal}
           onRequestClose={() => this.setState({ showModal: false })}>
           <ModalContent guests={this.state.guests} smoking={this.state.smoking} date={this.state.date}
             onPressClose={() => this.setState({ showModal: false })} />
-        </Modal>
+        </Modal> */}
+        </Animatable.View>
       </ScrollView>
     );
   }
   handleReservation() {
-    /*alert(JSON.stringify(this.state));*/
-    this.setState({ showModal: true });
+    Alert.alert(
+      'Your Reservation OK?',
+      'Number of Guest ' + this.state.guests + "\n" + 'Smoking? ' +  this.state.smoking + "\n" + 'Date and Time ' + this.state.date,
+      [
+        { text: 'Cancel', onPress: () => this.resetForm() },
+        { text: 'OK', onPress: () => {
+        this.presentLocalNotification(this.state.date);
+        this.resetForm();
+      }},
+      ]
+    );
+  }
+    resetForm() {
+      this.setState({
+        guests: 1,
+        smoking: false,
+        date: new Date(),
+        showDatePicker: false,
+      });
+    }
+    /* this.setState({ showModal: true }); */
+  async presentLocalNotification(date) {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({ shouldShowAlert: true, shouldPlaySound: true, shouldSetBadge: true })
+    });
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Your Reservation',
+        body: 'Reservation for ' + date + ' requested',
+        sound: true,
+        vibrate: true
+      },
+      trigger: null
+    });
   }
 }
 export default Reservation;

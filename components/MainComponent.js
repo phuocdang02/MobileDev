@@ -15,6 +15,25 @@ import Reservation from './ReservationComponent';
 
 import { baseUrl } from '../shared/baseUrl';
 import Favorites from './FavoriteComponent';
+import Login from './LoginComponent';
+
+function LoginNavigatorScreen() {
+  const LoginNavigator = createStackNavigator();
+  return (
+    <LoginNavigator.Navigator initialRouteName='Login'
+      screenOptions={{
+        headerStyle: { backgroundColor: '#7cc' },
+        headerTintColor: '#fff',
+        headerTitleStyle: { color: '#fff' }
+      }}>
+      <LoginNavigator.Screen name='Login' component={Login}
+        options={({ navigation }) => ({
+          headerTitle: 'Login',
+          headerLeft: () => (<Icon name='menu' size={36} color='#fff' onPress={() => navigation.toggleDrawer()} />)
+        })} />
+    </LoginNavigator.Navigator>
+  );
+}
 function FavoritesNavigatorScreen() {
   const FavoritesNavigator = createStackNavigator();
   return (
@@ -155,36 +174,49 @@ function MainNavigatorScreen(){
   const MainNavigator = createDrawerNavigator();
   return(
     <MainNavigator.Navigator initialRouteName='HomeScreen' drawerContent={props => <CustomDrawerContent{...props}/>}>
-            <MainNavigator.Screen name='HomeScreen' component={HomeNavigatorScreen}
+
+      <MainNavigator.Screen name='LoginScreen' component={LoginNavigatorScreen}
+        options={{
+          title: 'Login', headerShown: false,
+          drawerIcon: ({ focused, size }) => (<Icon name='sign-in' type='font-awesome' size={size} color={focused ? '#7cc' : '#ccc'} />)
+        }} />
+
+      <MainNavigator.Screen name='HomeScreen' component={HomeNavigatorScreen}
         options={{
           title: 'Home', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='home' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
+
       <MainNavigator.Screen name='AboutScreen' component={AboutNavigatorScreen}
         options={{
           title: 'About Us', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='info' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
+
       <MainNavigator.Screen name='MenuScreen' component={MenuNavigatorScreen}
         options={{
           title: 'Menu', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='menu' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
+
       <MainNavigator.Screen name='ContactScreen' component={ContactNavigatorScreen}
         options={{
           title: 'Contact Us', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='contacts' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
+
       <MainNavigator.Screen name='ReservationScreen' component={ReservationNavigatorScreen}
         options={{
           title: 'Reserve Table', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='cutlery' type='font-awesome' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
+        
         <MainNavigator.Screen name='FavoritesScreen' component={FavoritesNavigatorScreen}
         options={{
           title: 'My Favorites', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='heart' type='font-awesome' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
+        
     </MainNavigator.Navigator>
   );
 }

@@ -25,6 +25,7 @@ class RenderDish extends Component {
       if (dx < -200) return true; // right to left
       return false;
     };
+
     const panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (e, gestureState) => {return true;},
       onPanResponderEnd: (e, gestureState) => {
@@ -38,7 +39,16 @@ class RenderDish extends Component {
             ]
           );
         }
-        return true;
+        else{
+          Alert.alert(
+            'Add Comment',
+            'Are you sure you wish to add comment?',
+            [
+              { text: 'Cancel', onPress: () => {/*nothing*/ }},
+              {text: 'OK',onPress:() => {this.props.comment ? alert('Already comment'): this.props.onPressComment()}},
+            ]
+          );
+        }
       }
     });
     // render
@@ -88,6 +98,7 @@ class RenderComments extends Component {
 }
 
 import * as Animatable from 'react-native-animatable';
+import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory';
 
 class Dishdetail extends Component {
   constructor(props) {
